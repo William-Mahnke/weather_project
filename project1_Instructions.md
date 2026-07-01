@@ -11,7 +11,6 @@ This is an individual project due at the **end of Week 5**.
 ## Tools Used
 
 | Tool | Purpose |
-|------|---------|
 | **Python** (`requests`) | Making parameterized HTTP requests to the Open-Meteo API |
 | **Python** (`pandas`) | Profiling, cleaning, and transforming raw JSON responses into structured tabular data |
 | **PostgreSQL** | Hosting the normalized relational database |
@@ -27,7 +26,7 @@ This is an individual project due at the **end of Week 5**.
 
 The platform follows a linear **Extract → Profile & Clean → Load → Analyze** pipeline:
 
-```
+```text
 ┌─────────────────────────┐
 │   Open-Meteo API        │  Historical daily weather data
 │  (REST / JSON)          │  (temperature, precipitation, wind speed)
@@ -94,5 +93,3 @@ All work is tracked in a **Git repository** with a meaningful, incremental commi
   - The cities chosen and the date range used
   - Any data quality issues encountered
   - How those issues were resolved
-
-
