@@ -8,6 +8,8 @@ This is an individual project due at the **end of Week 5**.
 
 ---
 
+
+
 ## Tools Used
 
 | Tool | Purpose |
@@ -21,6 +23,8 @@ This is an individual project due at the **end of Week 5**.
 > API Base URL: `https://archive-api.open-meteo.com/v1/archive`
 
 ---
+
+
 
 ## Architecture Description
 
@@ -61,17 +65,21 @@ All work is tracked in a **Git repository** with a meaningful, incremental commi
 
 ---
 
+
+
 ## Requirements
+
+
 
 ### Functional Requirements
 
-- [ ] Call the Open-Meteo Historical Weather API using Python's `requests` library to retrieve **daily weather data** (temperature, precipitation, wind speed) for a **minimum of three cities** across a defined date range
-- [ ] Flatten and profile the returned JSON payload, inspecting for:
+- [x] Call the Open-Meteo Historical Weather API using Python's `requests` library to retrieve **daily weather data** (temperature, precipitation, wind speed) for a **minimum of three cities** across a defined date range
+- [x] Flatten and profile the returned JSON payload, inspecting for:
   - Null or missing values
   - Type inconsistencies
   - Unexpected value ranges
   - Duplicate records
-- [ ] Clean and transform the raw API response into a structured tabular format using `pandas`
+- [x] Clean and transform the raw API response into a structured tabular format using `pandas`
 - [ ] Design a **normalized relational schema** appropriate for multi-city time-series weather data (with appropriate primary and foreign key relationships)
 - [ ] Write **DDL** to create the schema and **DML** to load the cleaned records into PostgreSQL
 - [ ] Write a **minimum of five analytical SQL queries** answering concrete business-style questions, such as:
@@ -81,6 +89,8 @@ All work is tracked in a **Git repository** with a meaningful, incremental commi
   - Average rainfall by city
   - Frequency of extreme temperature days
 - [ ] Maintain a **Git repository** with a clear, meaningful commit history throughout the project
+
+
 
 ### Deliverables
 
@@ -93,3 +103,4 @@ All work is tracked in a **Git repository** with a meaningful, incremental commi
   - The cities chosen and the date range used
   - Any data quality issues encountered
   - How those issues were resolved
+
