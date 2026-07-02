@@ -1,0 +1,29 @@
+-- schema
+CREATE SCHEMA weather;
+
+-- city table 
+CREATE TABLE weather.city (
+    city_id SERIAL PRIMARY KEY,
+    city_name VARCHAR(30) NOT NULL,
+    state VARCHAR(20) NOT NULL,
+    latitude NUMERIC CHECK (latitude BETWEEN -90 AND 90),
+    longitude NUMERIC CHECK (longitude BETWEEN -180 AND 180),
+    elevation NUMERIC,
+    timezone VARCHAR(40),
+    UNIQUE (latitude, longitude)
+);
+
+-- weather statistics table
+CREATE TABLE weather.statistics (
+    stat_id SERIAL PRIMARY KEY,
+    city_id INTEGER NOT NULL REFERENCES weather.city(city_id) ON DELETE CASCADE,
+    date DATE NOT NULL,
+    mean_temp_f NUMERIC,
+    max_temp_f NUMERIC,
+    min_temp_f NUMERIC,
+    total_rain_in NUMERIC,
+    total_snow_in NUMERIC,
+    max_wind_speed_mph NUMERIC,
+    daylight_duration_s NUMERIC,
+    UNIQUE (city_id, date)  
+);
