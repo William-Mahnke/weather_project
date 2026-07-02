@@ -7,9 +7,9 @@ URL = "https://archive-api.open-meteo.com/v1/archive"
 
 # coordinates for cities
 CITIES = [
-    {"name": "San Jose",      "latitude": 37.33, "longitude": -121.88},
-    {"name": "Santa Barbara", "latitude": 34.42, "longitude": -119.69},
-    {"name": "Seattle",       "latitude": 47.60, "longitude": -122.33},
+    {"name": "San Jose", "state": "California", "latitude": 37.33, "longitude": -121.88, "id": 1},
+    {"name": "Santa Barbara", "state": "California", "latitude": 34.42, "longitude": -119.69, "id": 2},
+    {"name": "Seattle", "state": "Washington", "latitude": 47.60, "longitude": -122.33, "id": 3},
 ]
 
 # date range for project (all of 2025)
@@ -44,12 +44,16 @@ def slugify_city(name: str) -> str:
     return name.lower().replace(" ", "_")
 
 # wrapper for making and saving requests for data
-RAW_DIR.mkdir(parents = True, exist_ok = True)
-for city in CITIES:
-    data = get_city_data(city)
-    data["city_name"] = city["name"]
+def wrapper():
+    RAW_DIR.mkdir(parents = True, exist_ok = True)
+    for city in CITIES:
+        data = get_city_data(city)
+        data["city_name"] = city["name"]
 
-    out_path = RAW_DIR / f"{slugify_city(city["name"])}_{START_DATE}_{END_DATE}.json"
-    with out_path.open("w", encoding = "utf-8") as f:
-        json.dump(data, f, indent = 4)
-    print(f"Saved {city["name"]} -> {out_path}")
+        out_path = RAW_DIR / f"{slugify_city(city["name"])}_{START_DATE}_{END_DATE}.json"
+        with out_path.open("w", encoding = "utf-8") as f:
+            json.dump(data, f, indent = 4)
+        print(f"Saved {city["name"]} -> {out_path}")
+
+if __name__ == "__main__":
+    wrapper()
