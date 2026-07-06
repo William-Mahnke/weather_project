@@ -6,16 +6,16 @@ CREATE TABLE weather.city (
     city_id SERIAL PRIMARY KEY,
     city_name VARCHAR(30) NOT NULL,
     state VARCHAR(20) NOT NULL,
-    latitude NUMERIC CHECK (latitude BETWEEN -90 AND 90),
-    longitude NUMERIC CHECK (longitude BETWEEN -180 AND 180),
-    elevation NUMERIC,
-    timezone VARCHAR(40),
-    UNIQUE (latitude, longitude)
+    latitude NUMERIC CHECK (latitude BETWEEN -90 AND 90) NOT NULL,
+    longitude NUMERIC CHECK (longitude BETWEEN -180 AND 180) NOT NULL,
+    elevation NUMERIC NOT NULL,
+    timezone VARCHAR(40) NOT NULL,
+    UNIQUE (latitude, longitude),
+    UNIQUE (city_name, state)
 );
 
 -- weather statistics table
 CREATE TABLE weather.statistics (
-    stat_id SERIAL PRIMARY KEY,
     city_id INTEGER NOT NULL REFERENCES weather.city(city_id) ON DELETE CASCADE,
     date DATE NOT NULL,
     mean_temp_f NUMERIC,
@@ -25,5 +25,8 @@ CREATE TABLE weather.statistics (
     total_snow_in NUMERIC,
     max_wind_speed_mph NUMERIC,
     daylight_duration_s NUMERIC,
-    UNIQUE (city_id, date)  
+    PRIMARY KEY (city_id, date),
+    CHECK (total_rain_in >= 0),
+    CHECK (total_snow_in >= 0),
+    CHECK (max_wind_speed_mph >= 0)
 );

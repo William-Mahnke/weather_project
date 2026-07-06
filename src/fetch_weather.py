@@ -7,9 +7,9 @@ URL = "https://archive-api.open-meteo.com/v1/archive"
 
 # coordinates for cities
 CITIES = [
-    {"name": "San Jose", "state": "California", "latitude": 37.33, "longitude": -121.88, "id": 1},
-    {"name": "Santa Barbara", "state": "California", "latitude": 34.42, "longitude": -119.69, "id": 2},
-    {"name": "Seattle", "state": "Washington", "latitude": 47.60, "longitude": -122.33, "id": 3},
+    {"name": "San Jose", "state": "California", "latitude": 37.29, "longitude": -121.87, "id": 1},
+    {"name": "Santa Barbara", "state": "California", "latitude": 34.48, "longitude": -119.69, "id": 2},
+    {"name": "Seattle", "state": "Washington", "latitude": 47.62, "longitude": -122.32, "id": 3},
 ]
 
 # date range for project (all of 2025)
