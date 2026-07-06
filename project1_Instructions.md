@@ -88,7 +88,7 @@ All work is tracked in a **Git repository** with a meaningful, incremental commi
   - Windiest week of the year
   - Average rainfall by city
   - Frequency of extreme temperature days
-- [ ] Maintain a **Git repository** with a clear, meaningful commit history throughout the project
+- [x] Maintain a **Git repository** with a clear, meaningful commit history throughout the project
 
 
 
