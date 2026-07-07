@@ -12,7 +12,7 @@ CITIES = [
     {"name": "Seattle", "latitude": 47.62, "longitude": -122.32, "id": 3},
 ]
 
-# date range for project (all of 2025)
+# date range for project (2023-2025)
 START_DATE = "2023-01-01"
 END_DATE = "2025-12-31"
 
