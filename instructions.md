@@ -8,8 +8,6 @@ This is an individual project due at the **end of Week 5**.
 
 ---
 
-
-
 ## Tools Used
 
 | Tool | Purpose |
@@ -23,8 +21,6 @@ This is an individual project due at the **end of Week 5**.
 > API Base URL: `https://archive-api.open-meteo.com/v1/archive`
 
 ---
-
-
 
 ## Architecture Description
 
@@ -65,11 +61,7 @@ All work is tracked in a **Git repository** with a meaningful, incremental commi
 
 ---
 
-
-
 ## Requirements
-
-
 
 ### Functional Requirements
 
@@ -82,7 +74,7 @@ All work is tracked in a **Git repository** with a meaningful, incremental commi
 - [x] Clean and transform the raw API response into a structured tabular format using `pandas`
 - [x] Design a **normalized relational schema** appropriate for multi-city time-series weather data (with appropriate primary and foreign key relationships)
 - [x] Write **DDL** to create the schema and **DML** to load the cleaned records into PostgreSQL
-- [ ] Write a **minimum of five analytical SQL queries** answering concrete business-style questions, such as:
+- [x] Write a **minimum of five analytical SQL queries** answering concrete business-style questions, such as:
   - Highest recorded temperature per city
   - Total monthly precipitation
   - Windiest week of the year
@@ -90,17 +82,14 @@ All work is tracked in a **Git repository** with a meaningful, incremental commi
   - Frequency of extreme temperature days
 - [x] Maintain a **Git repository** with a clear, meaningful commit history throughout the project
 
-
-
 ### Deliverables
 
-- [ ] A **GitHub repository** containing:
+- [x] A **GitHub repository** containing:
   - All Python scripts used for ingestion, profiling, and loading
   - All SQL files (DDL schema, DML inserts, and SELECT queries)
   - A sample of the raw API JSON response
-- [ ] A **populated, normalized PostgreSQL database**
-- [ ] A **short written summary** (half to one page) describing:
+- [x] A **populated, normalized PostgreSQL database**
+- [x] A **short written summary** (half to one page) describing:
   - The cities chosen and the date range used
   - Any data quality issues encountered
   - How those issues were resolved
-
