@@ -1,4 +1,6 @@
 -- schema
+DROP SCHEMA IF EXISTS weather CASCADE;
+
 CREATE SCHEMA weather;
 
 -- city table 
