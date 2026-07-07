@@ -5,13 +5,12 @@ CREATE SCHEMA weather;
 CREATE TABLE weather.city (
     city_id SERIAL PRIMARY KEY,
     city_name VARCHAR(30) NOT NULL,
-    state VARCHAR(20) NOT NULL,
     latitude NUMERIC CHECK (latitude BETWEEN -90 AND 90) NOT NULL,
     longitude NUMERIC CHECK (longitude BETWEEN -180 AND 180) NOT NULL,
     elevation NUMERIC NOT NULL,
     timezone VARCHAR(40) NOT NULL,
     UNIQUE (latitude, longitude),
-    UNIQUE (city_name, state)
+    UNIQUE (city_name)
 );
 
 -- weather statistics table

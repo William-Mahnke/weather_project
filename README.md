@@ -40,3 +40,38 @@ weather_project/
 ├── docs/
 │   └── summary.md                # the half-to-one-page written summary (deliverable)
 └── project1_Instructions.md
+
+## Data Profiling Output
+
+=== Weather Data Profile ===
+Shape: 3288 rows x 9 columns
+Cities: ['San Jose', 'Santa Barbara', 'Seattle']
+Date range: 2023-01-01 00:00:00 to 2025-12-31 00:00:00
+<class 'pandas.DataFrame'>
+RangeIndex: 3288 entries, 0 to 3287
+Data columns (total 9 columns):
+ #   Column               Non-Null Count  Dtype
+---  ------               --------------  -----
+ 0   time                 3288 non-null   datetime64[us]
+ 1   temperature_2m_mean  3288 non-null   float64
+ 2   temperature_2m_max   3288 non-null   float64
+ 3   temperature_2m_min   3288 non-null   float64
+ 4   rain_sum             3288 non-null   float64
+ 5   snowfall_sum         3288 non-null   float64
+ 6   wind_speed_10m_max   3288 non-null   float64
+ 7   daylight_duration    3288 non-null   float64
+ 8   city_name            3288 non-null   str
+dtypes: datetime64[us](1), float64(7), str(1)
+memory usage: 231.3 KB
+       temperature_2m_mean  temperature_2m_max  temperature_2m_min  ...  snowfall_sum  wind_speed_10m_max  daylight_duration
+count              3288.00             3288.00             3288.00  ...       3288.00             3288.00            3288.00
+mean                 57.31               67.01               48.95  ...          0.01               10.15           43933.64
+std                  11.44               14.12                9.81  ...          0.14                3.85            7314.08
+min                  17.60               24.40               12.60  ...          0.00                2.30           30311.85
+25%                  48.50               56.00               41.40  ...          0.00                7.40           37335.61
+50%                  56.50               66.40               48.80  ...          0.00                9.50           43996.20
+75%                  65.50               77.60               56.10  ...          0.00               12.40           50473.67
+max                  94.10              107.90               81.70  ...          4.77               32.30           57560.40
+
+[8 rows x 7 columns]
+No missing values

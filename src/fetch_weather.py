@@ -7,20 +7,24 @@ URL = "https://archive-api.open-meteo.com/v1/archive"
 
 # coordinates for cities
 CITIES = [
-    {"name": "San Jose", "state": "California", "latitude": 37.29, "longitude": -121.87, "id": 1},
-    {"name": "Santa Barbara", "state": "California", "latitude": 34.48, "longitude": -119.69, "id": 2},
-    {"name": "Seattle", "state": "Washington", "latitude": 47.62, "longitude": -122.32, "id": 3},
+    {"name": "San Jose", "latitude": 37.29, "longitude": -121.87, "id": 1},
+    {"name": "Santa Barbara", "latitude": 34.48, "longitude": -119.69, "id": 2},
+    {"name": "Seattle", "latitude": 47.62, "longitude": -122.32, "id": 3},
 ]
 
 # date range for project (all of 2025)
-START_DATE = "2025-01-01"
+START_DATE = "2023-01-01"
 END_DATE = "2025-12-31"
 
 # parameters shared by every request
 BASE_PARAMS = {
     "daily": ",".join([
-		"temperature_2m_mean", "temperature_2m_max", "temperature_2m_min",
-		"rain_sum", "snowfall_sum", "wind_speed_10m_max", "daylight_duration",
+		"temperature_2m_mean",
+        "temperature_2m_max",
+        "temperature_2m_min",
+		"rain_sum", "snowfall_sum",
+        "wind_speed_10m_max",
+        "daylight_duration"
 	]),
 	"timezone": "America/Los_Angeles",
 	"temperature_unit": "fahrenheit",
@@ -29,7 +33,8 @@ BASE_PARAMS = {
 }
 
 # path to save raw json files
-RAW_DIR = Path("data/raw")
+ROOT = Path(__file__).resolve().parent.parent
+RAW_DIR = ROOT / "data/raw"
 
 # request for daily weather data for city over date range
 def get_city_data(city: dict) -> dict:

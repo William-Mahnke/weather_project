@@ -1,19 +1,41 @@
 import json
 import pandas as pd
 from pathlib import Path
-from exceptions import CityMismatchError, DateMissingError, IncompleteSeriesError
-from fetch_weather import START_DATE, END_DATE, CITIES
-import logging # TODO implement a logger for information
+from .exceptions import CityMismatchError, DateMissingError, ImproperDataError, IncompleteSeriesError
+from .fetch_weather import START_DATE, END_DATE, CITIES
+
+ROOT = Path(__file__).resolve().parent.parent
+RAW_DIR = ROOT / "data/raw"
+PROCESSED_DIR = ROOT / "data/processed"
 
 # convert jsons to combined dataframe
 def convert_jsons() -> pd.DataFrame:
     frames = []
-    for path in Path("data/raw").glob("*.json"):
-        data = json.load(open(path))
-        # cheap structural guard per file, with the filename for good error messages
+    for path in RAW_DIR.glob("*.json"):
+        with path.open() as f:
+            data = json.load(f)
+            # cheap structural guard per file, with the filename for good error messages
         assert "daily" in data and "city_name" in data, f"Bad structure: {path.name}"
         frames.append(pd.DataFrame(data["daily"]).assign(city_name = data["city_name"]))
     return pd.concat(frames, ignore_index = True)
+
+# profiling data after coercion
+def profile_weather_data(df: pd.DataFrame) -> None:
+    numeric_cols = [
+        "temperature_2m_mean", "temperature_2m_max", "temperature_2m_min",
+        "rain_sum", "snowfall_sum", "wind_speed_10m_max", "daylight_duration",
+    ]
+    print("\n=== Weather Data Profile ===")
+    print(f"Shape: {df.shape[0]} rows x {df.shape[1]} columns")
+    print(f"Cities: {sorted(df['city_name'].unique())}")
+    print(f"Date range: {df['time'].min()} to {df['time'].max()}")
+    df.info()
+    print(df[numeric_cols].describe().round(2))
+    na = df.isna().sum()
+    if na.any():
+        print(na[na > 0])
+    else:
+        print("No missing values")
 
 # validate data
 def validate_weather_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -24,6 +46,9 @@ def validate_weather_data(df: pd.DataFrame) -> pd.DataFrame:
     
     # dates to pd datetime   
     df["time"] = pd.to_datetime(df["time"], errors = "coerce")
+
+    # helper function for profiliing data (after coercion)
+    profile_weather_data(df)
 
     # check for duplicates
     duplicates = df.duplicated(["city_name", "time"]).sum()
@@ -69,7 +94,7 @@ def validate_weather_data(df: pd.DataFrame) -> pd.DataFrame:
         out_of_range = df[temp_col].notna() & (~df[temp_col].between(-459.67, 134.1))
         bad_temps += out_of_range.sum()
     if bad_temps:
-        print(f"WARNING: {bad_temps} temperature value(s) outside [-459.67, 134.1]°F")
+        raise ImproperDataError(f"{bad_temps} temperature value(s) outside [-459.67, 134.1]°F")
 
     # check min <= mean <= max for everyday
     complete = df[temp_cols].notna().all(axis = 1)
@@ -79,19 +104,19 @@ def validate_weather_data(df: pd.DataFrame) -> pd.DataFrame:
     if improper_temps:
         offenders = df.loc[complete & violates, ["city_name", "time",
                         "temperature_2m_min", "temperature_2m_mean", "temperature_2m_max"]]
-        print(f"WARNING: {improper_temps} row(s) violate min<=mean<=max:\n{offenders.to_string(index=False)}")
+        raise ImproperDataError(f"{improper_temps} row(s) violate min<=mean<=max:\n{offenders.to_string(index=False)}")
 
     # check rain, snow, wind, daylight duration all non-negative
     cols = ["rain_sum", "snowfall_sum", "wind_speed_10m_max", "daylight_duration"]
     negative_values = (df[cols] < 0).any(axis = 1).sum()
     if negative_values:
         neg_per_col = (df[cols] < 0).sum()
-        print(f"WARNING: {negative_values} row(s) with negative values:\n{neg_per_col[neg_per_col > 0].to_string()}")
+        raise ImproperDataError(f"{negative_values} row(s) with negative values:\n{neg_per_col[neg_per_col > 0].to_string()}")
 
     # additional check daylight duration less than total seconds in the day 
     improper_duration = (df["daylight_duration"] > 86400).sum()
     if improper_duration:
-        print(f"WARNING: {improper_duration} row(s) with daylight > 86400s")
+        raise ImproperDataError(f"{improper_duration} row(s) with daylight > 86400s")
 
     return df
 
@@ -110,18 +135,20 @@ def process_weather_data(df: pd.DataFrame) -> pd.DataFrame:
     # sort by city then date for organized processed file
     df = df.sort_values(by = ["city_name", "date"], ascending = [True, True]).reset_index(drop = True)
     df = df.drop(columns = "city_name")
+    df = df[["city_id", "date", "mean_temp_f", "max_temp_f", "min_temp_f", "total_rain_in", "total_snow_in",  # pyright: ignore[reportAssignmentType]
+            "max_wind_speed_mph", "daylight_duration_s"]]
     return df
 
 # save city information to separate table
 def build_city_df() -> pd.DataFrame:
     city_meta = {c["name"]: c for c in CITIES}
     rows = []
-    for path in Path("data/raw").glob("*.json"):
-        data = json.load(open(path))
+    for path in RAW_DIR.glob("*.json"):
+        with path.open() as f:
+            data = json.load(f)
         rows.append({
             "city_id": city_meta[data["city_name"]]["id"],
             "city_name": data["city_name"],
-            "state": city_meta[data["city_name"]]["state"],
             "latitude": data["latitude"],
             "longitude": data["longitude"],
             "elevation": data["elevation"],
@@ -130,12 +157,12 @@ def build_city_df() -> pd.DataFrame:
     return pd.DataFrame(rows).sort_values("city_id").reset_index(drop = True)
 
 # save processed data to folder
-def save_processed_data(weather_df: pd.DataFrame, cities_df: pd.DataFrame, path: str = "data/processed"):
-    Path(path).mkdir(parents = True, exist_ok = True)
-    weather_df.to_csv(Path(path) / "weather.csv", index = False)
-    print(f"Processed weather statistics saved to {Path(path) / 'weather.csv'}")
-    cities_df.to_csv(Path(path) / "cities.csv", index = False)
-    print(f"City data saved to {Path(path) / 'cities.csv'}")
+def save_processed_data(weather_df: pd.DataFrame, cities_df: pd.DataFrame, path: Path = PROCESSED_DIR):
+    path.mkdir(parents = True, exist_ok = True)
+    weather_df.to_csv(path / "weather.csv", index = False)
+    print(f"Processed weather statistics saved to {path / 'weather.csv'}")
+    cities_df.to_csv(path / "cities.csv", index = False)
+    print(f"City data saved to {path / 'cities.csv'}")
 
 # wrapper function
 def process_json():

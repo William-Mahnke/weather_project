@@ -9,3 +9,7 @@ class CityMismatchError(Exception):
 class IncompleteSeriesError(Exception):
     """Raised if number of records for each a city isn't what's expected"""
     pass
+
+class ImproperDataError(Exception):
+    """Raised if numeric values don't match real-world constraints."""
+    pass
