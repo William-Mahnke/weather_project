@@ -7,7 +7,10 @@ WITH weekly_wind AS (
         MAX(s.max_wind_speed_mph) AS peak_wind_mph
     FROM weather.statistics s
     WHERE s.max_wind_speed_mph IS NOT NULL
-    GROUP BY s.city_id, EXTRACT(YEAR FROM s.date), EXTRACT(WEEK FROM s.date)
+    GROUP BY 
+        s.city_id,
+        EXTRACT(YEAR FROM s.date),
+        EXTRACT(WEEK FROM s.date)
 ),
 ranked AS (
     SELECT
@@ -29,4 +32,6 @@ SELECT
 FROM ranked r
 JOIN weather.city c ON c.city_id = r.city_id
 WHERE r.wind_rank = 1
-ORDER BY c.city_name, r.year;
+ORDER BY 
+    c.city_name,
+    r.year;

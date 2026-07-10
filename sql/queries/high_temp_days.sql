@@ -7,5 +7,12 @@ SELECT
 FROM weather.statistics s
 JOIN weather.city c ON s.city_id = c.city_id
 WHERE s.max_temp_f >= 90
-GROUP BY c.city_id, c.city_name, EXTRACT(YEAR FROM s.date), EXTRACT(MONTH FROM s.date)
-ORDER BY c.city_name, month, year;
+GROUP BY 
+    c.city_id,
+    c.city_name,
+    EXTRACT(YEAR FROM s.date),
+    EXTRACT(MONTH FROM s.date)
+ORDER BY 
+    c.city_name,
+    month, 
+    year;

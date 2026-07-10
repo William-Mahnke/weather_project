@@ -1,5 +1,4 @@
 -- total rainfall by month & year for each city
-
 WITH rain_sums AS (
     SELECT
         city_id,
@@ -10,8 +9,15 @@ WITH rain_sums AS (
     GROUP BY city_id, EXTRACT(YEAR FROM date), EXTRACT(MONTH FROM date)
 )
 
-SELECT w.city_name, r.year, r.month, r.rain_sum
+SELECT 
+    w.city_name,
+    r.year,
+    r.month,
+    r.rain_sum total_rain
 FROM weather.city w
 JOIN rain_sums r ON w.city_id = r.city_id
-ORDER BY w.city_name, r.year, r.month;
+ORDER BY 
+    w.city_name,
+    r.year,
+    r.month;
 
