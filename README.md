@@ -53,35 +53,35 @@ There are two options to populate the database:
 ## Project Structure
 
 ```text
-├── README.md
 ├── data
-│   ├── old
-│   │   ├── cities.csv
-│   │   ├── san_jose_2025-01-01_2025-12-31.json
-│   │   ├── santa_barbara_2025-01-01_2025-12-31.json
-│   │   ├── seattle_2025-01-01_2025-12-31.json
-│   │   └── weather.csv
-│   ├── processed
-│   │   ├── cities.csv
-│   │   └── weather.csv
-│   └── raw
-│       ├── san_jose_2023-01-01_2025-12-31.json
-│       ├── santa_barbara_2023-01-01_2025-12-31.json
-│       └── seattle_2023-01-01_2025-12-31.json
+│   ├── copies
+│   │   ├── cities.csv
+│   │   ├── san_jose_2023-01-01_2025-12-31.json
+│   │   ├── santa_barbara_2023-01-01_2025-12-31.json
+│   │   ├── seattle_2023-01-01_2025-12-31.json
+│   │   └── weather.csv
+│   ├── processed
+│   │   ├── cities.csv
+│   │   └── weather.csv
+│   └── raw
+│       ├── san_jose_2023-01-01_2025-12-31.json
+│       ├── santa_barbara_2023-01-01_2025-12-31.json
+│       └── seattle_2023-01-01_2025-12-31.json
 ├── instructions.md
+├── README.md
 ├── requirements.txt
 ├── response_sample.json
 ├── sql
-│   ├── ddl
-│   │   └── schema.sql
-│   ├── dml
-│   │   └── insert_data.sql
-│   └── queries
-│       ├── high_temp_days.sql
-│       ├── highest_temperature.sql
-│       ├── total_rain.sql
-│       ├── weekly_daylight.sql
-│       └── windiest_weeks.sql
+│   ├── ddl
+│   │   └── schema.sql
+│   ├── dml
+│   │   └── insert_data.sql
+│   └── queries
+│       ├── high_temp_days.sql
+│       ├── highest_temperature.sql
+│       ├── total_rain.sql
+│       ├── weekly_daylight.sql
+│       └── windiest_weeks.sql
 └── src
     ├── __init__.py
     ├── exceptions.py
