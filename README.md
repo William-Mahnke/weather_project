@@ -29,19 +29,25 @@ The only other issue I encountered was populating the database with the processe
 ### Other Files
 
 - `.gitignore`
-- `instructions.md`
+- `instructions.md`: project instructions
 - `requirements.txt`: dependencies used for project
 - `response_sample.json`: example of JSON response when using fetch_weather (San Jose, 2023-2025)
 
 ### Use
 
-- `python -m src.fetch_weather` to make requests and save JSON responses to data/raw
-- `python -m src.process_json` to ingest, validate, and process responses to data/processed (both cities.csv and weather.csv)
-- `python -m src.load_data` to populate PostgreSQL database with processed CSV files
+1. `python -m src.fetch_weather` to make requests and save JSON responses to data/raw
+2. `python -m src.process_json` to ingest, validate, and process responses to data/processed (both cities.csv and weather.csv)
+3. After creating your Postgres database, open `schema.sql` to create the schema and tables `city` and `statistics`
 
-- `schema.sql` to create `weather` schema and tables `city` and `statistics`
-- `insert_data.sql` can be used in place of `load_data.py` to populate the database, CSV path should be adjusted accordingly if processed data location or file names are changed
-- `queries/` to answer analytical questions for database
+There are two options to populate the database:
+
+- created a `.env` file containing your database specs
+- use `python -m src.load_data` to populate PostgreSQL database with processed CSV files
+
+- Use the command `cp data/processed/cities.csv /tmp/` and `cp data/processed/weather.csv /tmp/` to create copies accessible for Postgres
+- Within Postgres, open `insert_data.sql` and execute the script to populate the tables with the processed CSV files
+
+- queries within `queries/` can be opened and executed within your Postgres database
 
 ## Project Structure
 
