@@ -35,14 +35,15 @@ The only other issue I encountered was populating the database with the processe
 
 ### Use
 
-1. `python -m src.fetch_weather` to make requests and save JSON responses to data/raw
-2. `python -m src.process_json` to ingest, validate, and process responses to data/processed (both cities.csv and weather.csv)
-3. After creating your Postgres database, open `schema.sql` to create the schema and tables `city` and `statistics`
+1. Create a virtual environment in the repository root and install dependencies in `requirements.txt`: `pip install -r requirements.txt`
+2. `python -m src.fetch_weather` to make requests and save JSON responses to data/raw
+3. `python -m src.process_json` to ingest, validate, and process responses to data/processed (both cities.csv and weather.csv)
+4. After creating your Postgres database, open `schema.sql` to create the schema and tables `city` and `statistics`
 
 There are two options to populate the database:
 
-- created a `.env` file containing your database specs
-- use `python -m src.load_data` to populate PostgreSQL database with processed CSV files
+- Create a `.env` file containing your database specs
+- Use `python -m src.load_data` to populate PostgreSQL database with processed CSV files
 
 - Use the command `cp data/processed/cities.csv /tmp/` and `cp data/processed/weather.csv /tmp/` to create copies accessible for Postgres
 - Within Postgres, open `insert_data.sql` and execute the script to populate the tables with the processed CSV files
