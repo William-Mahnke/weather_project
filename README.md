@@ -52,6 +52,7 @@ There are two options to populate the database:
 
 ## Project Structure
 
+```text
 ├── README.md
 ├── data
 │   ├── old
@@ -87,6 +88,7 @@ There are two options to populate the database:
     ├── fetch_weather.py
     ├── load_data.py
     └── process_json.py
+```
 
 ## Data Profiling Output
 
