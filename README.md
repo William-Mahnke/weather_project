@@ -90,6 +90,7 @@ There are two options to populate the database:
 
 ## Data Profiling Output
 
+```text
 === Weather Data Profile ===
 Shape: 3288 rows x 9 columns
 Cities: ['San Jose', 'Santa Barbara', 'Seattle']
@@ -98,7 +99,7 @@ Date range: 2023-01-01 00:00:00 to 2025-12-31 00:00:00
 RangeIndex: 3288 entries, 0 to 3287
 Data columns (total 9 columns):
 
-     Column               Non-Null Count  Dtype
+ #   Column               Non-Null Count  Dtype
 ---  ------               --------------  -----
  0   time                 3288 non-null   datetime64[us]
  1   temperature_2m_mean  3288 non-null   float64
@@ -123,3 +124,4 @@ max                  94.10              107.90               81.70  ...         
 
 [8 rows x 7 columns]
 No missing values
+```
